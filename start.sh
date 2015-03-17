@@ -13,5 +13,8 @@ if [ -f /var/www/yii2site/docker/aftermigrate.sh ]; then
 	/bin/bash /var/www/yii2site/docker/aftermigrate.sh
 fi
 
+# Apache gets grumpy about PID files pre-existing
+rm -f /var/run/apache2/apache2.pid
+
 # Start apache in the foreground.
 /usr/sbin/apache2ctl -D FOREGROUND
