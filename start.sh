@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # Allow image to execute custom migrations before main migrations.
 if [ -f /var/www/yii2site/docker/beforemigrate.sh ]; then
