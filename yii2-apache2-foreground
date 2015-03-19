@@ -1,0 +1,30 @@
+#!/bin/sh
+set -e
+
+# Allow image to execute custom migrations before main migrations.
+if [ -f docker/beforemigrate ]; then
+	/bin/bash docker/beforemigrate
+fi
+
+# Run migrations.
+./yii migrate --interactive=0
+
+# Allow image to execute custom migrations after main migrations.
+if [ -f docker/aftermigrate ]; then
+	/bin/bash docker/aftermigrate
+fi
+
+# Modify folder permissions.
+chown www-data:www-data runtime
+chown www-data:www-data web/assets
+
+# Allow image to execute custom arbitrary commands before start.
+if [ -f docker/beforestart ]; then
+	/bin/bash docker/beforestart
+fi
+
+# Apache gets grumpy about PID files pre-existing.
+rm -f /var/run/apache2/apache2.pid
+
+# Start!
+exec /usr/sbin/apache2ctl -D FOREGROUND

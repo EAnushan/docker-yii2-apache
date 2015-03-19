@@ -31,7 +31,7 @@ EXPOSE 443
 COPY default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 
 # Copy startup script.
-COPY start.sh /opt/yii2-apache/
+COPY yii2-apache2-foreground /usr/local/bin/
 
 # Copy site files.
 ONBUILD COPY . /var/www/yii2site/
@@ -42,8 +42,5 @@ ONBUILD WORKDIR /var/www/yii2site
 # Run composer.
 ONBUILD RUN composer install --prefer-source --no-interaction
 
-# Modify folder permissions.
-ONBUILD RUN chown www-data:www-data runtime && chown www-data:www-data web/assets
-
 # Start!
-CMD ["/bin/bash", "/opt/yii2-apache/start.sh"]
+CMD ["yii2-apache2-foreground"]
