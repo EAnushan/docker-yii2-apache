@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+# Switch to site directory.
+cd /var/www/yii2site/
+
 # Allow image to execute custom migrations before main migrations.
 if [ -f docker/beforemigrate ]; then
 	/bin/bash docker/beforemigrate
