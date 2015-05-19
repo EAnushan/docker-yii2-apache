@@ -1,20 +1,17 @@
-#!/bin/sh
+#!/usr/bin/env bash
 set -e
 
-# Switch to site directory.
-cd /var/www/yii2site/
-
 # Allow image to execute custom migrations before main migrations.
-if [ -f docker/beforemigrate ]; then
-	/bin/bash docker/beforemigrate
+if [ -f /var/www/yii2site/docker/beforemigrate ]; then
+	/var/www/yii2site/docker/beforemigrate
 fi
 
 # Run migrations.
-./yii migrate --interactive=0
+/var/www/yii2site/yii migrate --interactive=0
 
 # Allow image to execute custom migrations after main migrations.
-if [ -f docker/aftermigrate ]; then
-	/bin/bash docker/aftermigrate
+if [ -f /var/www/yii2site/docker/aftermigrate ]; then
+	/var/www/yii2site/docker/aftermigrate
 fi
 
 # Modify folder permissions.
@@ -22,8 +19,8 @@ chown www-data:www-data runtime
 chown www-data:www-data web/assets
 
 # Allow image to execute custom arbitrary commands before start.
-if [ -f docker/beforestart ]; then
-	/bin/bash docker/beforestart
+if [ -f /var/www/yii2site/docker/beforestart ]; then
+	/var/www/yii2site/docker/beforestart
 fi
 
 # Apache gets grumpy about PID files pre-existing.
