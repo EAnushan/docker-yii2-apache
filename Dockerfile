@@ -40,7 +40,7 @@ ONBUILD COPY . /var/www/yii2site/
 ONBUILD WORKDIR /var/www/yii2site
 
 # Run composer.
-ONBUILD RUN composer install --prefer-source --no-interaction
+ONBUILD RUN composer install --optimize-autoloader --prefer-source --no-interaction
 
 # Start!
 CMD ["yii2-apache2-foreground"]
