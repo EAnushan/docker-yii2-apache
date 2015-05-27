@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 set -e
 
-if [ -d /var/www/yii2site/migrations ]; then
-	# Allow image to execute custom migrations before main migrations.
-	if [ -f /var/www/yii2site/docker/beforemigrate ]; then
-		/var/www/yii2site/docker/beforemigrate
-	fi
-	
-	# Run migrations.
-	/var/www/yii2site/yii migrate --interactive=0
-	
-	# Allow image to execute custom migrations after main migrations.
-	if [ -f /var/www/yii2site/docker/aftermigrate ]; then
-		/var/www/yii2site/docker/aftermigrate
-	fi
+# Allow image to execute custom migrations before main migrations.
+if [ -f /var/www/yii2site/docker/beforemigrate ]; then
+	/var/www/yii2site/docker/beforemigrate
 fi
 
+if [ -d /var/www/yii2site/migrations ]; then
+	# Run migrations.
+	/var/www/yii2site/yii migrate --interactive=0
+fi
+
+# Allow image to execute custom migrations after main migrations.
+if [ -f /var/www/yii2site/docker/aftermigrate ]; then
+	/var/www/yii2site/docker/aftermigrate
+fi
+	
 # Modify folder permissions.
 chown www-data:www-data runtime
 chown www-data:www-data web/assets
