@@ -21,14 +21,16 @@ RUN composer global require "fxp/composer-asset-plugin:1.0.0" --prefer-source --
 # Enable apache mods.
 RUN a2enmod rewrite && a2enmod ssl
 
-# Enable only ssl apache config.
-RUN a2dissite 000-default && a2ensite default-ssl.conf
-
-# Expose HTTPS port.
-EXPOSE 443
-
 # Copy configs.
+COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+
+# Enable http and https config.
+RUN a2ensite 000-default && a2ensite default-ssl.conf
+
+# Expose ports.
+EXPOSE 80
+EXPOSE 443
 
 # Copy startup script.
 COPY yii2-apache2-foreground /usr/local/bin/
