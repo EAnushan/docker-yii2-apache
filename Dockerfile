@@ -22,8 +22,8 @@ RUN composer global require "fxp/composer-asset-plugin:1.0.0" --prefer-source --
 RUN a2enmod rewrite && a2enmod ssl
 
 # Copy configs.
-COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+COPY docker/config/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY docker/config/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 
 # Enable http and https config.
 RUN a2ensite 000-default && a2ensite default-ssl.conf
@@ -33,7 +33,7 @@ EXPOSE 80
 EXPOSE 443
 
 # Copy startup script.
-COPY yii2-apache2-foreground /usr/local/bin/
+COPY docker/bin/* /usr/local/bin/
 
 # Copy site files.
 ONBUILD COPY . /var/www/yii2site/

@@ -2,8 +2,8 @@
 set -e
 
 # Allow image to execute custom migrations before main migrations.
-if [ -f /var/www/yii2site/docker/beforemigrate ]; then
-	/var/www/yii2site/docker/beforemigrate
+if [ -f /var/www/yii2site/docker/bin/beforemigrate ]; then
+	/var/www/yii2site/docker/bin/beforemigrate
 fi
 
 if [ -d /var/www/yii2site/migrations ]; then
@@ -12,8 +12,8 @@ if [ -d /var/www/yii2site/migrations ]; then
 fi
 
 # Allow image to execute custom migrations after main migrations.
-if [ -f /var/www/yii2site/docker/aftermigrate ]; then
-	/var/www/yii2site/docker/aftermigrate
+if [ -f /var/www/yii2site/docker/bin/aftermigrate ]; then
+	/var/www/yii2site/docker/bin/aftermigrate
 fi
 	
 # Modify folder permissions.
@@ -21,8 +21,8 @@ chown www-data:www-data runtime
 chown www-data:www-data web/assets
 
 # Allow image to execute custom arbitrary commands before start.
-if [ -f /var/www/yii2site/docker/beforestart ]; then
-	/var/www/yii2site/docker/beforestart
+if [ -f /var/www/yii2site/docker/bin/beforestart ]; then
+	/var/www/yii2site/docker/bin/beforestart
 fi
 
 # Apache gets grumpy about PID files pre-existing.
