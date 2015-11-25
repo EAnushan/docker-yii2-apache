@@ -15,8 +15,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
-# Configure composer.
-RUN composer global require "fxp/composer-asset-plugin:1.0.0" --prefer-source --no-interaction
+# Install global composer packages required for yii2.
+RUN composer global require "fxp/composer-asset-plugin" "^1.0" --prefer-source --no-interaction
 
 # Enable apache mods.
 RUN a2enmod rewrite && a2enmod ssl
